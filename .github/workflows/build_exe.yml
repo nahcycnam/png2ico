@@ -28,14 +28,14 @@ jobs:
           --windows-console-mode=disable `
           --windows-icon-from-ico=logo.ico `
           --output-dir=build_output `
-          --output-filename=百度翻译.exe `
+          --output-filename=图片转ICO.exe `
           --enable-plugin=pyqt6 `
           --jobs=2 `
           --assume-yes-for-downloads `
-          main.py
+          image_to_icon.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: EmployeeLauncher
+        name: exe_zip
         path: build_output/

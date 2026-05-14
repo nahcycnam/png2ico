@@ -1,12 +1,13 @@
 import sys
 import os
 from PIL import Image
+import ctypes  # 新增导入
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
 							 QHBoxLayout, QPushButton, QLabel, QFileDialog,
 							 QComboBox, QSpinBox, QGroupBox, QMessageBox,
 							 QProgressBar)
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
-from PyQt6.QtGui import QPixmap, QDragEnterEvent, QDropEvent
+from PyQt6.QtGui import QPixmap, QDragEnterEvent, QDropEvent, QIcon
 
 
 class ConvertThread(QThread):
@@ -60,6 +61,7 @@ class ConvertThread(QThread):
 class ImageToIconTool(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		self.setWindowIcon(QIcon("logo.ico"))  # 设置窗口图标
 		self.input_image_path = None
 		self.init_ui()
 
@@ -318,6 +320,13 @@ class ImageToIconTool(QMainWindow):
 def main():
 	app = QApplication(sys.argv)
 	app.setStyle('Fusion')  # 使用Fusion风格，更现代
+
+	# 设置应用程序用户模型ID（解决任务栏图标问题）
+	myappid = 'mycompany.imagetoicon.tool.v1'  # 任意唯一字符串
+	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+	# 设置应用程序图标（用于任务栏）
+	app.setWindowIcon(QIcon("logo.ico"))
 
 	window = ImageToIconTool()
 	window.show()
